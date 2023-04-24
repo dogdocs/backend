@@ -1,27 +1,20 @@
-import bcrypt from 'bcryptjs';
-import UserModel from "../../models/User"
-
-interface IUserCreate {
-  email: string
-  password: string
-}
-
-interface IUserCreateDTO {
-  message: string
-}
+import bcrypt from "bcryptjs";
+import UserModel from "../../models/User";
+import { IUserCreate } from "../../interfaces/i-user";
+import { IUserCreateDTO } from "../../interfaces/dto/i-user-dto";
+import AppError from "../../util/helpers/errors/app-error";
 
 export class CreateUserUseCase {
-  async handle (user: IUserCreate): Promise<IUserCreateDTO> {
+  async handle(user: IUserCreate): Promise<IUserCreateDTO> {
+    const password = bcrypt.hashSync(user.password);
 
-    const password = bcrypt.hashSync(user.password)
-
-    const newUser = UserModel.create({
+    await UserModel.create({
       email: user.email,
-      password
-    })
+      password,
+    });
 
     return {
-      message: "User created!"
-    }
+      message: "User created!",
+    };
   }
 }

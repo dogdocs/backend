@@ -2,18 +2,8 @@ import UserModel from "../../models/User"
 import Unauthorized from "../../util/helpers/errors/unauthorized"
 import bcrypt from 'bcryptjs'
 import { TokenUseCase } from "./token-use-case"
-
-
-interface IAuthLogin {
-  email: string
-  password: string
-}
-
-interface IAuthLoginDTO {
-  userId: string,
-  email: string,
-  token: string
-}
+import { IAuthLogin } from "../../interfaces/i-auth"
+import { IAuthLoginDTO } from "../../interfaces/dto/i-auth-dto"
 
 export class AuthLoginUseCase {
   async login (auth: IAuthLogin): Promise<IAuthLoginDTO> {
